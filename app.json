@@ -5,6 +5,9 @@
       "bundler": "metro"
     },
     "name": "elecciones",
-    "slug": "elecciones"
+    "slug": "elecciones",
+    "plugins": [
+      "expo-router"
+    ]
   }
 }

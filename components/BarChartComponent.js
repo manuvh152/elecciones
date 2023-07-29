@@ -9,7 +9,7 @@ const BarChartComponent = ({ data }) => {
         data={data}
         width={300}
         height={220}
-        yAxisLabel="$"
+        yAxisLabel="%"
         chartConfig={{
           backgroundColor: "#e26a00",
           backgroundGradientFrom: "#fb8c00",

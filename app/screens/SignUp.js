@@ -4,7 +4,7 @@ import { View, Text, SafeAreaView, TextInput, Pressable } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
 
 const SignUp = ({toLogIn}) => {
-    const [text, onChangeText] = React.useState('');
+    const [user, onChangeText] = React.useState('');
     const [email, onChangeEmail] = React.useState('');
 
     const [hidePass, setHidePass] = React.useState(true);
@@ -16,13 +16,36 @@ const SignUp = ({toLogIn}) => {
     const handleSignUp= () => {
         toLogIn();
     }
-    // const []
+    
+    // const handleSignUp = async () => {
+    //     try {
+    //       const response = await fetch('https://whisperback-production.up.railway.app/register', {
+    //         method: 'POST',
+    //         headers: {
+    //           'Content-Type': 'application/json'
+    //         },
+    //         body: JSON.stringify({
+    //           user: user,
+    //           email: email,
+    //           password: password
+    //         })
+    //       });
+    
+    //       const data = await response.json();
+    //       console.log(data);
+    
+    //       toLogIn();
+    //     } catch (error) {
+    //       console.error('Error signing up:', error);
+    //     }
+    //   };
+
     return (
         <SafeAreaView className="flex-1">
         <View className="flex-1 p-[16px] bg-blackapp">
             <View className="flex h-80 w-full p-[16px] items-center justify-center">
             <Text className="text-whiteapp pb-2 text-5xl">APP NAME</Text>
-            {/* <Svg xmlns="http://www.w3.org/2000/svg" width="118" height="125" fill="none" viewBox="0 0 118 125">
+            <Svg xmlns="http://www.w3.org/2000/svg" width="118" height="125" fill="none" viewBox="0 0 118 125">
                 <Mask id="a" width="46" height="81" x="45" y="0" maskUnits="userSpaceOnUse" style="mask-type:luminance">
                     <Path fill="#fff" d="M45.82 60.626 71.414 33.18l17.282 19.757L63.1 80.382 45.82 60.626Zm6.356-27.7 8.276 9.462 30.01-32.178L82.186.75l-30.01 32.178Z"/>
                 </Mask>
@@ -33,11 +56,11 @@ const SignUp = ({toLogIn}) => {
                 <Path stroke="#FF1168" strokeLinejoin="bevel" strokeWidth="2.646" d="M88.301 92.716c4.65-2.461 13.84-7.636 18.401-10.223 4.56-2.588 4.488-2.588 4.524 2.099.036 4.686.18 14.058.253 18.889.072 4.831.072 5.121-4.56 7.78-4.632 2.66-13.895 7.69-18.437 10.404-4.541 2.714-4.36 3.112-4.415-1.773-.054-4.885-.344-15.053-.434-20.011-.09-4.958.018-4.704 4.668-7.165Z"/>
                 <Path stroke="#FF1168" strokeLinejoin="bevel" strokeWidth="2.646" d="M85.062 80.665H2.122v13.896h82.94V80.665Z"/>
                 <Path stroke="#FF1168" strokeLinejoin="bevel" strokeWidth="2.646" d="m85.28 81.534-.326 13.353 31.157-18.13-.977-13.679-29.855 18.456Zm-83.926-.79 31.599-17.883h82.072l-28.66 17.804-85.011.08Zm33.77-10.067 49.504.435"/>
-            </Svg> */}
+            </Svg>
             </View>
             <View className="flex p-[16px] mx-6 mt-6 items-start justify-center">
                 <Text className="text-whiteapp pb-2 text-lg">USERNAME</Text>
-                <TextInput value={text} onChange={onChangeText} placeholder="Type your Username" className="w-full h-auto pb-1 px-2 mb-4 rounded-xl bg-grayapp text-base"/>
+                <TextInput value={user} onChange={onChangeText} placeholder="Type your Username" className="w-full h-auto pb-1 px-2 mb-4 rounded-xl bg-grayapp text-base"/>
                 <Text className="text-whiteapp pb-2 text-lg">EMAIL</Text>
                 <TextInput value={email} onChange={onChangeEmail} placeholder="Type your Email" className="w-full h-auto pb-1 px-2 mb-4 rounded-xl bg-grayapp text-base"/>
                 <Text className="text-whiteapp pb-2 text-lg">PASSWORD</Text>

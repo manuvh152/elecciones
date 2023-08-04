@@ -33,14 +33,14 @@ const CustomSidebarMenu = (props) => {
         </ImageBackground>
         <View className="flex-1 bg-whiteapp pt-2">
           <DrawerItemList {...props} />
-          <DrawerItem
+          {/* <DrawerItem
             label="Visit Us"
             onPress={() => Linking.openURL('https://aboutreact.com/')}
           />
           <DrawerItem
             label="Rate Us"
             onPress={() => Linking.openURL('https://aboutreact.com/')}
-          />
+          /> */}
         </View>
       </DrawerContentScrollView>
       <Pressable onPress={() => alert('You pressed Log Out button.')} className="h-[60px] flex flex-row items-center justify-center p-3 bg-pinkapp">

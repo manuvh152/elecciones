@@ -10,6 +10,8 @@ import "../global.css";
 import CustomSidebarMenu from "../components/CustomSidebarMenu";
 import Data from "./screens/Data";
 import Predictions from "./screens/Predictions";
+import ContactUs from "./screens/ContactUs";
+import AboutUs from "./screens/AboutUs";
 
 import { FontAwesome } from "@expo/vector-icons";
 
@@ -32,6 +34,26 @@ function PredictionsScreenStack() {
       initialRouteName="PredictionsNavigator"
       screenOptions={{headerShown: false}}>
       <Stack.Screen name="PredictionsScreen" component={Predictions}/>
+    </Stack.Navigator>
+  )
+}
+
+function ContactUsScreenStack() {
+  return (
+    <Stack.Navigator
+      initialRouteName="ContactUsNavigator"
+      screenOptions={{headerShown: false}}>
+      <Stack.Screen name="ContactUsScreen" component={ContactUs}/>
+    </Stack.Navigator>
+  )
+}
+
+function AboutUsScreenStack() {
+  return (
+    <Stack.Navigator
+      initialRouteName="AboutUsNavigator"
+      screenOptions={{headerShown: false}}>
+      <Stack.Screen name="AboutUsScreen" component={AboutUs}/>
     </Stack.Navigator>
   )
 }
@@ -66,6 +88,24 @@ const Routes = () => {
           )
         }}
           component={PredictionsScreenStack}
+          />
+        <Drawer.Screen
+          name="ContactUs"
+          options={{drawerLabel: 'Contact Us', title: 'Contact Us',
+          drawerIcon: ({color})=> (
+            <FontAwesome name="id-card" size={22} color={color}/>
+          )
+        }}
+          component={ContactUsScreenStack}
+          />
+        <Drawer.Screen
+          name="AboutUs"
+          options={{drawerLabel: 'About Us', title: 'About Us',
+          drawerIcon: ({color})=> (
+            <FontAwesome name="handshake-o" size={22} color={color}/>
+          )
+        }}
+          component={AboutUsScreenStack}
           />
       </Drawer.Navigator>
     </NavigationContainer>

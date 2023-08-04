@@ -1,40 +1,54 @@
 import React from 'react';
-import {
-  SafeAreaView,
+import { SafeAreaView,
   View,
   StyleSheet,
-  Image,
+  Image, ImageBackground,
   Text,
   Linking,
-} from 'react-native';
+  Pressable } from 'react-native';
 
-import {
-  DrawerContentScrollView,
-  DrawerItemList,
-  DrawerItem,
-} from '@react-navigation/drawer';
+import "../global.css";
+
+import { DrawerContentScrollView, DrawerItemList, DrawerItem } from '@react-navigation/drawer';
+
+import { FontAwesome } from '@expo/vector-icons';
 
 import { images } from "../constants";
 
 const CustomSidebarMenu = (props) => {
+  const bgSide = '../assets/bgSide.jpg';
+  const proileImage = '../assets/profile.png';
 
   return (
-    <SafeAreaView style={{flex: 1}}>
+    <SafeAreaView style={{flex: 1}} className="bg-whiteapp">
       {/*Top Large Image */}
-      <Image
-        source={images.logo}
-        style={styles.sideMenuProfileIcon}
-      />
-      <DrawerContentScrollView {...props}>
-        <DrawerItemList {...props} />
+      <DrawerContentScrollView {...props}
+      contentContainerStyle={{backgroundColor:'#171717'}}>
+        <ImageBackground source={require(bgSide)}
+          className="p-5"
+          
+        >
+          <Image source={require(proileImage)}
+          className="h-20 w-20 rounded-full mb-3"/>
+          <Text className="text-whiteapp text-lg font-bold">Username</Text>
+          <Text className="text-whiteapp text-base font-normal">email@email.com</Text>
+        </ImageBackground>
+        <View className="flex-1 bg-whiteapp pt-2">
+          <DrawerItemList {...props} />
+          <DrawerItem
+            label="Visit Us"
+            onPress={() => Linking.openURL('https://aboutreact.com/')}
+          />
+          <DrawerItem
+            label="Rate Us"
+            onPress={() => Linking.openURL('https://aboutreact.com/')}
+          />
+        </View>
       </DrawerContentScrollView>
-      <Text
-        style={{
-          fontSize: 16,
-          textAlign: 'center',
-          color: 'grey'
-        }}>
-      </Text>
+      <Pressable onPress={() => alert('You pressed Log Out button.')} className="h-[60px] flex flex-row items-center justify-center p-3 bg-pinkapp">
+        <FontAwesome name="sign-out" size={15} color="#ECECEC"/>
+        <Text className="text-whiteapp pl-2 text-[15px] font-bold">Log Out</Text>
+      </Pressable>
     </SafeAreaView>
   );
 };
@@ -46,11 +60,6 @@ const styles = StyleSheet.create({
     height: 100,
     borderRadius: 100 / 2,
     alignSelf: 'center',
-  },
-  iconStyle: {
-    width: 15,
-    height: 15,
-    marginHorizontal: 5,
   },
   customItem: {
     padding: 16,

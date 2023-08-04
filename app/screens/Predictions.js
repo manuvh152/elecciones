@@ -2,7 +2,8 @@ import React from "react";
 import { View, Text, SafeAreaView, Pressable } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
 
-const Predictions = ({navigation}) => {
+
+const Predictions = () => {
   return (
     <SafeAreaView className="flex-1">
       <View className="flex-1 p-[16px] bg-blackapp">

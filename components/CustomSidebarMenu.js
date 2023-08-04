@@ -13,6 +13,8 @@ import { DrawerContentScrollView, DrawerItemList, DrawerItem } from '@react-navi
 
 import { FontAwesome } from '@expo/vector-icons';
 
+import { images } from "../constants";
+
 const CustomSidebarMenu = (props) => {
   const bgSide = '../assets/bgSide.jpg';
   const proileImage = '../assets/profile.png';

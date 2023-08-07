@@ -1,7 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { View, Text, SafeAreaView, Pressable, StyleSheet } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
 import { Picker } from "@react-native-picker/picker";
+import ViewShot, { captureRef } from "react-native-view-shot";
+import { Share } from "react-native";
 import axios from "axios";
 import BarChartComponent from "../../components/BarChartComponents";
 
@@ -11,7 +13,7 @@ const Predictions = ({navigation}) => {
   const [chartData, setChartData] = useState(null);
 
   useEffect(() => {
-    const apiUrl = `http://192.168.0.5:5000/api/v1/estado/${selectedNumber}`;
+    const apiUrl = `http://172.16.29.33:5000/api/v1/estado/${selectedNumber}`;
 
     // Hacemos la solicitud a la API
     axios
@@ -49,9 +51,29 @@ const Predictions = ({navigation}) => {
     };
   };
 
+  let viewShotRef = useRef();
+
+  const onSharePress = async () => {
+    try {
+      const uri = await captureRef(viewShotRef, {
+        format: 'png',
+        quality: 0.9,
+      });
+      console.log(uri)
+      await Share.share({
+        title: 'Predictions',
+        message: 'Current trend',
+        url: uri,
+        
+      });
+    } catch (error) {
+      console.log('Error capturing or sharing screenshot:', error);
+    }
+  }
+
   return (
     <SafeAreaView className="flex-1">
-      <View className="flex p-[16px] bg-blackapp h-full w-full">
+      <ViewShot ref={viewShotRef} className="flex p-[16px] bg-blackapp h-full w-full">
         <View className="flex m-[16px] items-center justify-start">
           <View className="flex flex-row flex-wrap gap-2 justify-around content-around h-auto w-full">
             <View className="w-32 h-32 rounded-full border-2 border-purpleapp flex items-center justify-center">
@@ -78,14 +100,14 @@ const Predictions = ({navigation}) => {
           <View className="flex h-full w-full bg-[#373737] rounded-lg border-2 border-pinkapp justify-center items-center">
             {chartData && <BarChartComponent data={chartData} />}
           </View>
-          <Pressable className="mt-2" onPress={() => alert('You pressed Share option.')}>
-            <FontAwesome name="share-alt" size={32} color="#ECECEC"/>
-          </Pressable>
         </View>
-        <View className="flex p-[16px] mt-2 items-center justify-start">
-          <Text className="text-whiteapp mb-2 text-lg">USERNAME</Text>
+        <View className="flex p-[16px] m-[-8] items-center justify-start">
+          <Text className="text-whiteapp mb-2 text-lg">STATE</Text>
           <Picker
+            // className="w-[200px] h-[25px] bg-whiteapp rounded-md border-2 border-pinkapp text-pinkapp"
             style={styles.picker}
+            width={200}
+            height={50}
             selectedValue={selectedNumber}
             onValueChange={(itemValue, itemIndex) => setSelectedNumber(itemValue)}
           >
@@ -123,8 +145,11 @@ const Predictions = ({navigation}) => {
             <Picker.Item label="Zacatecas " value={32} />
             {/* Opciones del Picker */}
             </Picker>
+            <Pressable className=" mt-16" onPress={onSharePress}>
+              <FontAwesome name="share-alt" size={32} color="#ECECEC"/>
+            </Pressable>
         </View>
-      </View>
+      </ViewShot>
     </SafeAreaView>
   )
 }
@@ -132,11 +157,17 @@ const Predictions = ({navigation}) => {
 const styles = StyleSheet.create({
   picker: {
     width: 200,
-    height: 25,
-    backgroundColor: "white",
+    height: 50,
+    backgroundColor: "#ECECEC",
     borderRadius: 10,
-    borderWidth: 1,
-    borderColor: "gray",
+    // borderWidth: 1,
+    // borderColor: "#FF1168",
+    color: "#FF1168",
+    overflow: 'hidden',
+    justifyContent:"center",
+    position: 'absolute',
+    marginTop: 50
+
   },
 });
 

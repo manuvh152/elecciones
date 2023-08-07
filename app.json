@@ -8,6 +8,17 @@
     "slug": "elecciones",
     "plugins": [
       "expo-router"
-    ]
+    ],
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "3444f95b-86d2-4d18-b64f-d5855e19d072"
+      }
+    },
+    "android": {
+      "package": "com.paulvs17.elecciones"
+    }
   }
 }

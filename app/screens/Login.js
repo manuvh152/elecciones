@@ -2,37 +2,36 @@ import React from "react";
 import { Svg, G, Path, Mask } from "react-native-svg";
 import { View, Text, SafeAreaView, TextInput, Pressable } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
+import axios from "axios";
 
 const Login = ({onLogin, onSignUp}) => {
-    const [user, onChangeText] = React.useState('');
     const [hidePass, setHidePass] = React.useState(true);
     const [password, setPassword] = React.useState('');
+    const [user, setUser] = React.useState('');
 
-    const handleLogin= () => {
-        onLogin();
-    }
+    const handleLogin = async () => {
 
-    // const handleLogin = async () => {
-    //     try {
-    //       const response = await fetch('https://whisperback-production.up.railway.app/login', {
-    //         method: 'POST',
-    //         headers: {
-    //           'Content-Type': 'application/json'
-    //         },
-    //         body: JSON.stringify({
-    //           user: user,
-    //           password: password
-    //         })
-    //       });
+        try {
+            const response = await axios.post('https://whisperback-production.up.railway.app/login', {
+                user: user,
+                password: password
+            });
     
-    //       const data = await response.json();
-    //       console.log(data);
+          const data = await response.data
+          if (data.msg != "Usuario no existentew") {
+            console.log(data.findUser.email)
+            console.log(data.findUser.user)
+
+            onLogin()
+          } else {
+            console.log(data)
+            alert('Incorrect Credentials!')
+          }
     
-    //       onLogin();
-    //     } catch (error) {
-    //       console.error('Error logging in:', error);
-    //     }
-    //   };
+        } catch (error) {
+          console.log('Error logging in:', error)
+        }
+    };
 
     const handleToSignUp= () => {
         onSignUp();
@@ -58,10 +57,10 @@ const Login = ({onLogin, onSignUp}) => {
             </View>
             <View className="flex p-[16px] mx-6 mt-6 items-start justify-center">
                 <Text className="text-whiteapp pb-2 text-lg">USERNAME</Text>
-                <TextInput value={user} onChange={onChangeText} placeholder="Type your Username" className="w-full h-auto pb-1 px-2 mb-4 rounded-xl bg-grayapp text-base"/>
+                <TextInput value={user} onChangeText={setUser} placeholder="Type your Username" className="w-full h-auto pb-1 px-2 mb-4 rounded-xl bg-grayapp text-base"/>
                 <Text className="text-whiteapp pb-2 text-lg">PASSWORD</Text>
                 <View className="w-full h-auto pb-1 px-2 mb-4 rounded-xl bg-grayapp flex-row items-center">
-                    <TextInput secureTextEntry={hidePass ? true : false} autoCapitalize="none" autoCorrect={false} value={password} placeholder="Type your Password" onChangeText={text => setPassword(text)} className="w-[90%] h-auto text-base"
+                    <TextInput secureTextEntry={hidePass ? true : false} autoCapitalize="none" autoCorrect={false} value={password} placeholder="Type your Password" onChangeText={setPassword} className="w-[90%] h-auto text-base"
                     activeOutlineColor="#FF1168" mode="outlined" blurOnSubmit={false} selectionColor="#FF1168"/>
                     <Pressable onPress={() => setHidePass(!hidePass)}>
                         <FontAwesome name={hidePass ? 'eye-slash' : 'eye' } size={20} color='#FF1168'/>

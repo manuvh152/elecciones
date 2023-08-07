@@ -2,6 +2,7 @@ import React from "react";
 import { Svg, G, Path, Mask } from "react-native-svg";
 import { View, Text, SafeAreaView, TextInput, Pressable } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
+import axios from "axios";
 
 const SignUp = ({toLogIn}) => {
     const [user, onChangeText] = React.useState('');
@@ -13,32 +14,35 @@ const SignUp = ({toLogIn}) => {
     const [hideRePass, setHideRePass] = React.useState(true);
     const [rePassword, setRePassword] = React.useState('');
 
-    const handleSignUp= () => {
+    const noSignUp= () => {
         toLogIn();
     }
     
-    // const handleSignUp = async () => {
-    //     try {
-    //       const response = await fetch('https://whisperback-production.up.railway.app/register', {
-    //         method: 'POST',
-    //         headers: {
-    //           'Content-Type': 'application/json'
-    //         },
-    //         body: JSON.stringify({
-    //           user: user,
-    //           email: email,
-    //           password: password
-    //         })
-    //       });
-    
-    //       const data = await response.json();
-    //       console.log(data);
-    
-    //       toLogIn();
-    //     } catch (error) {
-    //       console.error('Error signing up:', error);
-    //     }
-    //   };
+    const handleSignUp = async () => {
+        if (password === rePassword){
+            try {
+                const response = await axios.post('https://whisperback-production.up.railway.app/register', {
+                    user: user,
+                    email: email,
+                    password: password
+              });
+        
+              const data = await response.data
+              console.log(data);
+              if (data.userCreated) {
+                  toLogIn();
+              } else {
+                console.log(data)
+              }
+        
+            } catch (error) {
+              console.error('Error signing up:', error);
+            }
+        } else {
+            alert('Passwords do not match!')
+        }
+        
+      };
 
     return (
         <SafeAreaView className="flex-1">
@@ -60,12 +64,12 @@ const SignUp = ({toLogIn}) => {
             </View>
             <View className="flex p-[16px] mx-6 mt-6 items-start justify-center">
                 <Text className="text-whiteapp pb-2 text-lg">USERNAME</Text>
-                <TextInput value={user} onChange={onChangeText} placeholder="Type your Username" className="w-full h-auto pb-1 px-2 mb-4 rounded-xl bg-grayapp text-base"/>
+                <TextInput value={user} onChangeText={onChangeText} placeholder="Type your Username" className="w-full h-auto pb-1 px-2 mb-4 rounded-xl bg-grayapp text-base"/>
                 <Text className="text-whiteapp pb-2 text-lg">EMAIL</Text>
-                <TextInput value={email} onChange={onChangeEmail} placeholder="Type your Email" className="w-full h-auto pb-1 px-2 mb-4 rounded-xl bg-grayapp text-base"/>
+                <TextInput value={email} onChangeText={onChangeEmail} autoCapitalize="none" placeholder="Type your Email" className="w-full h-auto pb-1 px-2 mb-4 rounded-xl bg-grayapp text-base"/>
                 <Text className="text-whiteapp pb-2 text-lg">PASSWORD</Text>
                 <View className="w-full h-auto pb-1 px-2 mb-4 rounded-xl bg-grayapp flex-row items-center">
-                    <TextInput secureTextEntry={hidePass ? true : false} autoCapitalize="none" autoCorrect={false} value={password} placeholder="Type your Password" onChangeText={text => setPassword(text)} className="w-[90%] h-auto text-base"
+                    <TextInput secureTextEntry={hidePass ? true : false} autoCapitalize="none" autoCorrect={false} value={password} placeholder="Type your Password" onChangeText={setPassword} className="w-[90%] h-auto text-base"
                     activeOutlineColor="#FF1168" mode="outlined" blurOnSubmit={false} selectionColor="#FF1168"/>
                     <Pressable onPress={() => setHidePass(!hidePass)}>
                         <FontAwesome name={hidePass ? 'eye-slash' : 'eye' } size={20} color='#FF1168'/>
@@ -73,7 +77,7 @@ const SignUp = ({toLogIn}) => {
                 </View>
                 <Text className="text-whiteapp pb-2 text-lg">CONFIRM PASSWORD</Text>
                 <View className="w-full h-auto pb-1 px-2 mb-4 rounded-xl bg-grayapp flex-row items-center">
-                    <TextInput secureTextEntry={hideRePass ? true : false} autoCapitalize="none" autoCorrect={false} value={rePassword} placeholder="Confirm your Password" onChangeText={text => setRePassword(text)} className="w-[90%] h-auto text-base"
+                    <TextInput secureTextEntry={hideRePass ? true : false} autoCapitalize="none" autoCorrect={false} value={rePassword} placeholder="Confirm your Password" onChangeText={setRePassword} className="w-[90%] h-auto text-base"
                     activeOutlineColor="#FF1168" mode="outlined" blurOnSubmit={false} selectionColor="#FF1168"/>
                     <Pressable onPress={() => setHideRePass(!hideRePass)}>
                         <FontAwesome name={hideRePass ? 'eye-slash' : 'eye' } size={20} color='#FF1168'/>
@@ -85,7 +89,7 @@ const SignUp = ({toLogIn}) => {
                     <Text className="text-whiteapp pr-2 text-[15px] font-bold">Sign Up</Text>
                     <FontAwesome name="user" size={15} color='#ECECEC'/>
                 </Pressable>
-                <Pressable onPress={() => alert('You pressed Forgot Password button.')}>
+                <Pressable onPress={() => noSignUp()}>
                     <Text className="text-whiteapp pb-2 text-sm">ALREADY HAVE AN ACOUNT?</Text>
                 </Pressable>
             </View>

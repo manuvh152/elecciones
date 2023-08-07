@@ -9,30 +9,31 @@ const Data = ({navigation}) => {
     <SafeAreaView className="flex-1">
       <View className="flex-1 p-[16px] bg-blackapp">
         <View className="flex-1 p-[16px] mt-6 items-start justify-center">
-          <Text className="text-whiteapp pl-4 pb-2 text-lg">INE</Text>
+          <Text className="text-whiteapp pl-4 pb-2 text-lg">INE REGISTRATIONS (2023)</Text>
           <View className="flex h-full w-full bg-[#373737] rounded border-2 border-pinkapp justify-center items-center">
             <BarChart
               data={{
-                labels: ["January", "February", "March", "April", "May", "June"],
+                labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
                 datasets: [
                   {
                     data: [
-                      Math.random() * 100,
-                      Math.random() * 100,
-                      Math.random() * 100,
-                      Math.random() * 100,
-                      Math.random() * 100,
-                      Math.random() * 100
+                      1.83,
+                      0.67,
+                      1.25,
+                      2.10,
+                      2.78,
+                      2.79
                     ]
                   }
                 ]
               }}
               width={(Dimensions.get("window").width) * 0.8} // from react-native
-              height={240}
+              height={200}
               yAxisLabel=""
-              yAxisSuffix="k"
+              yAxisSuffix="M"
               yAxisInterval={1} // optional, defaults to 1
               chartConfig={{
+                barPercentage: 0.5,
                 backgroundColor: "#37373775",
                 backgroundGradientFrom: "#37373775",
                 backgroundGradientTo: "#37373775",
@@ -50,8 +51,8 @@ const Data = ({navigation}) => {
               }}
               bezier
               style={{
-                marginVertical: 8,
-                marginHorizontal: 8,
+                marginVertical: -4,
+                marginHorizontal: "auto",
                 borderRadius: 16,
                 flexDirection: "row"
               }}
@@ -59,28 +60,28 @@ const Data = ({navigation}) => {
           </View>
         </View>
         <View className="flex-1 p-[16px] mt-6 items-start justify-center">
-          <Text className="text-whiteapp pl-4 pb-2 text-lg">VOTES LAST ELECTIONS</Text>
+          <Text className="text-whiteapp pl-4 pb-2 text-lg">FEDERAL ELECTIONS (88-18)</Text>
           <View className="flex h-full w-full bg-[#373737] rounded border-2 border-purpleapp justify-center items-center">
           <BarChart
             data={{
-              labels: ["January", "February", "March", "April", "May", "June"],
+              labels: ["1988", "1994", "2000", "2006", "2012", "2018"],
               datasets: [
                 {
                   data: [
-                    Math.random() * 100,
-                    Math.random() * 100,
-                    Math.random() * 100,
-                    Math.random() * 100,
-                    Math.random() * 100,
-                    Math.random() * 100
+                    19.80,
+                    35.28,
+                    37.60,
+                    41.79,
+                    50.14,
+                    56.61
                   ]
                 }
               ]
             }}
             width={(Dimensions.get("window").width) * 0.8} // from react-native
-            height={240}
+            height={200}
             yAxisLabel=""
-            yAxisSuffix="k"
+            yAxisSuffix="M"
             yAxisInterval={1} // optional, defaults to 1
             chartConfig={{
               backgroundColor: "#37373775",
@@ -100,8 +101,8 @@ const Data = ({navigation}) => {
             }}
             bezier
             style={{
-              marginVertical: 8,
-              marginHorizontal: 8,
+              marginVertical: -4,
+              marginHorizontal: "auto",
               borderRadius: 16,
               flexDirection: "row"
             }}

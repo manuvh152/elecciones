@@ -1,16 +1,17 @@
 import React from "react";
-import { View, Text, SafeAreaView, Dimensions } from "react-native";
+import { View, Text, SafeAreaView, Dimensions, ScrollView } from "react-native";
 import { BarChart } from "react-native-chart-kit";
 
 import BottomTable from "./BottomTable";
 
 const Data = ({navigation}) => {
   return (
-    <SafeAreaView className="flex-1">
-      <View className="flex-1 p-[16px] bg-blackapp">
-        <View className="flex-1 p-[16px] mt-6 items-start justify-center">
-          <Text className="text-whiteapp pl-4 pb-2 text-lg">INE REGISTRATIONS (2023)</Text>
-          <View className="flex h-full w-full bg-[#373737] rounded border-2 border-pinkapp justify-center items-center">
+    <SafeAreaView className="flex-1 bg-blackapp">
+      <ScrollView>
+      <View className="flex h-full w-full px-[16px]">
+        <View className="flex h-auto w-full mt-4 px-[16px] items-center justify-center">
+          <Text className="text-whiteapp pb-2 text-lg">INE REGISTRATIONS (2023)</Text>
+          <View className="flex h-[210px] w-full bg-[#373737] rounded border-2 border-pinkapp justify-center items-center">
             <BarChart
               data={{
                 labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
@@ -59,9 +60,9 @@ const Data = ({navigation}) => {
             />
           </View>
         </View>
-        <View className="flex-1 p-[16px] mt-6 items-start justify-center">
-          <Text className="text-whiteapp pl-4 pb-2 text-lg">FEDERAL ELECTIONS (88-18)</Text>
-          <View className="flex h-full w-full bg-[#373737] rounded border-2 border-purpleapp justify-center items-center">
+        <View className="flex w-full h-auto p-[16px] mt-4 items-center justify-center">
+          <Text className="text-whiteapp pb-2 text-lg">FEDERAL ELECTIONS (88-18)</Text>
+          <View className="flex h-[210px] w-full bg-[#373737] rounded border-2 border-purpleapp justify-center items-center">
           <BarChart
             data={{
               labels: ["1988", "1994", "2000", "2006", "2012", "2018"],
@@ -111,6 +112,7 @@ const Data = ({navigation}) => {
         </View>
         <BottomTable/>
       </View>
+      </ScrollView>
     </SafeAreaView>
   )
 }

@@ -1,19 +1,23 @@
 import React, { useEffect, useState, useRef } from "react";
-import { View, Text, SafeAreaView, Pressable, StyleSheet } from "react-native";
+import { View, Text, SafeAreaView, Pressable, StyleSheet, ScrollView } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
 import { Picker } from "@react-native-picker/picker";
 import ViewShot, { captureRef } from "react-native-view-shot";
 import { Share } from "react-native";
 import axios from "axios";
 import BarChartComponent from "../../components/BarChartComponents";
+import PercentageTextComponent from "../../components/PercentageTextComponents";
+import { data } from "autoprefixer";
 
 const Predictions = ({navigation}) => {
 
   const [selectedNumber, setSelectedNumber] = useState(2);
   const [chartData, setChartData] = useState(null);
+  const [percentageData, setPerData] = useState(null);
 
   useEffect(() => {
-    const apiUrl = `http://172.16.29.33:5000/api/v1/estado/${selectedNumber}`;
+    // API Host
+    const apiUrl = `https://ai-whisperapp.onrender.com/api/v1/estado/${selectedNumber}`;
 
     // Hacemos la solicitud a la API
     axios
@@ -23,6 +27,9 @@ const Predictions = ({navigation}) => {
         // Formatear los datos para la gráfica
         const formattedData = formatChartData(dataFromApi);
         setChartData(formattedData);
+
+        const formattedPercentageData = formatPercentageData(dataFromApi);
+        setPerData(formattedPercentageData);
       })
       .catch((error) => {
         console.error("Error al obtener los datos de la API:", error);
@@ -51,6 +58,33 @@ const Predictions = ({navigation}) => {
     };
   };
 
+  // Función para formatear los datos desde la API a un formato adecuado para la gráfica
+  const formatPercentageData = (dataFromApi) => {
+    const labels = [];
+    const data = [];
+
+    for (const partido in dataFromApi) {
+      if (partido === "MOVIMIENTO_CIUDADANO"){
+        labels.push("Movimiento Ciudadano");
+      } else {
+        labels.push(partido);
+      }
+      // Redondear a dos decimales
+      const value = parseFloat(dataFromApi[partido]).toFixed(2);
+      data.push(value);
+    }
+
+    // Sort the arrays based on the data values (in descending order)
+    const sortedIndices = data.map((_, index) => index).sort((a, b) => data[b] - data[a]);
+    const sortedLabels = sortedIndices.map((index) => labels[index]);
+    const sortedData = sortedIndices.map((index) => data[index]);
+
+    return {
+      labels: sortedLabels,
+      data: sortedData,
+    };
+  };
+
   let viewShotRef = useRef();
 
   const onSharePress = async () => {
@@ -72,37 +106,28 @@ const Predictions = ({navigation}) => {
   }
 
   return (
-    <SafeAreaView className="flex-1">
-      <ViewShot ref={viewShotRef} className="flex p-[16px] bg-blackapp h-full w-full">
-        <View className="flex m-[16px] items-center justify-start">
-          <View className="flex flex-row flex-wrap gap-2 justify-around content-around h-auto w-full">
-            <View className="w-32 h-32 rounded-full border-2 border-purpleapp flex items-center justify-center">
-              <Text className="text-whiteapp text-3xl">45%</Text>
-              <Text className="text-whiteapp">PARTY 1</Text>
-            </View>
-            <View className="w-32 h-32 rounded-full border-2 border-purpleapp flex items-center justify-center">
-              <Text className="text-whiteapp text-3xl">28%</Text>
-              <Text className="text-whiteapp">PARTY 2</Text>
-            </View>
-            <View className="w-32 h-32 rounded-full border-2 border-purpleapp flex items-center justify-center">
-              <Text className="text-whiteapp text-3xl">21%</Text>
-              <Text className="text-whiteapp">PARTY 3</Text>
-            </View>
-            <View className="w-32 h-32 rounded-full border-2 border-purpleapp flex items-center justify-center">
-              <Text className="text-whiteapp text-3xl">6%</Text>
-              <Text className="text-whiteapp">PARTY 4</Text>
-            </View>
-          </View>
-          <Text className="text-whiteapp text-lg">ACCURACY: 200%</Text>
+    <SafeAreaView className="flex-1 bg-blackapp">
+      <ScrollView>
+      <ViewShot ref={viewShotRef} className="flex p-[16px] h-full w-full">
+        <View className="flex items-center justify-center w-full h-auto">
+          <Text className="text-whiteapp text-lg font-bold">CURRENT TREND</Text>
         </View>
-        <View className="flex p-[16px] items-center justify-center w-full h-72">
-          <Text className="text-whiteapp text-lg">CHART SHOWING CURRENT TREND</Text>
-          <View className="flex h-full w-full bg-[#373737] rounded-lg border-2 border-pinkapp justify-center items-center">
+        <View className="flex mt-[16px] items-center justify-start">
+          <View className="flex flex-row flex-wrap gap-2 justify-around content-around h-auto w-full">
+            {percentageData && <PercentageTextComponent data={percentageData} element={0}/>}
+            {percentageData && <PercentageTextComponent data={percentageData} element={1}/>}
+            {percentageData && <PercentageTextComponent data={percentageData} element={2}/>}
+            {percentageData && <PercentageTextComponent data={percentageData} element={3}/>}
+          </View>
+          <Text className="text-whiteapp text-base">ACCURACY: 78%</Text>
+        </View>
+        <View className="flex mt-[-2] px-[16px] items-center justify-center w-full h-72">
+          <View className="flex h-[250px] w-full bg-[#373737] rounded-lg border-2 border-pinkapp justify-center items-center">
             {chartData && <BarChartComponent data={chartData} />}
           </View>
         </View>
-        <View className="flex p-[16px] m-[-8] items-center justify-start">
-          <Text className="text-whiteapp mb-2 text-lg">STATE</Text>
+        <View className="flex p-[16px] my-[-24] items-center justify-start">
+          <Text className="text-whiteapp mb-2 text-lg">SELECT STATE</Text>
           <Picker
             // className="w-[200px] h-[25px] bg-whiteapp rounded-md border-2 border-pinkapp text-pinkapp"
             style={styles.picker}
@@ -145,11 +170,13 @@ const Predictions = ({navigation}) => {
             <Picker.Item label="Zacatecas " value={32} />
             {/* Opciones del Picker */}
             </Picker>
-            <Pressable className=" mt-16" onPress={onSharePress}>
-              <FontAwesome name="share-alt" size={32} color="#ECECEC"/>
+            <Pressable className="mt-16 h-auto w-[160px] flex flex-row rounded-xl items-center justify-center p-3 bg-pinkapp" onPress={onSharePress}>
+              <Text className="text-whiteapp pr-2 text-[15px] font-bold">SHARE </Text>
+              <FontAwesome name="share-alt" size={15} color="#ECECEC"/>
             </Pressable>
         </View>
       </ViewShot>
+      </ScrollView>
     </SafeAreaView>
   )
 }

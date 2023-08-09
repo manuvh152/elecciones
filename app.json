@@ -4,8 +4,15 @@
     "web": {
       "bundler": "metro"
     },
-    "name": "elecciones",
+    "name": "Whisper App",
     "slug": "elecciones",
+    "version": "1.0.0",
+    "icon": "./assets/icon.png",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "cover",
+      "backgroundColor": "#FF1168"
+    },
     "plugins": [
       "expo-router"
     ],
@@ -19,6 +26,9 @@
     },
     "android": {
       "package": "com.paulvs17.elecciones"
+    },
+    "ios": {
+      "bundleIdentifier": "com.paulvs17.elecciones"
     }
   }
 }

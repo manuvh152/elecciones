@@ -17,11 +17,6 @@ import { FontAwesome } from '@expo/vector-icons'
 const CustomSidebarMenu = (props) => {
   const bgSide = '../assets/bgSide.jpg';
   const proileImage = '../assets/profile.png';
-  
-  // const email = SyncStorage.get('userEmail')
-  // const user = SyncStorage.getItem('userUser')
-  // console.log(email)
-  // console.log(user)
 
   return (
     <SafeAreaView style={{flex: 1}} className="bg-whiteapp">
@@ -46,20 +41,5 @@ const CustomSidebarMenu = (props) => {
     </SafeAreaView>
   );
 };
-
-// const styles = StyleSheet.create({
-//   sideMenuProfileIcon: {
-//     resizeMode: 'center',
-//     width: 100,
-//     height: 100,
-//     borderRadius: 100 / 2,
-//     alignSelf: 'center',
-//   },
-//   customItem: {
-//     padding: 16,
-//     flexDirection: 'row',
-//     alignItems: 'center',
-//   },
-// });
 
 export default CustomSidebarMenu;
